@@ -1,0 +1,95 @@
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="shortcut icon" href="../favicon.png"/>
+<title>Minecraft</title>
+</head>
+<body>
+<div id="toppanel" style="display: flex; align-items: center;">
+<div id="logo"><a href="./" border="0"><img src="../img/logo_small.gif" border="0"></a></div>
+  <div id="links" style="flex: 1; display: flex; gap: 20px; align-items: center; padding-left: 20px; font-size: 14px; font-family: 'Trebuchet MS'; float: none; width: auto; margin: 0;">
+    <a href="../" id="menu_" class="menuItem">Home</a>
+    <a href="../servers.html" id="menu_about" class="menuItem">Servers</a>
+  </div>
+</div>
+</div>
+
+</div>
+
+    <div id="content">
+    <br>
+    <br>
+    <br>
+
+
+    <h2>Login</h2>
+
+    <form name="input" action="login.jsp" method="post">
+    <table>
+        <tbody><tr>
+            <td>Username:</td>
+            <td><input type="text" name="username" value=""></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Log in!"></td>
+        </tr>
+    </tbody></table>
+    <br>
+
+    </div>
+
+<script>
+(() => {
+    const usernameInput = document.querySelector('input[name="username"]');
+    const loginButton = document.querySelector('input[type="submit"]');
+    const form = document.querySelector('form');
+
+    const usernameRegex = /^[A-Za-z0-9_]{3,}$/;
+
+    function getCookie(name) {
+        const match = document.cookie.match(
+            new RegExp('(?:^|; )' + name.replace(/[.$?*|{}()[\]\\/+^]/g, '\\$&') + '=([^;]*)')
+        );
+        return match ? decodeURIComponent(match[1]) : "";
+    }
+
+    function setCookie(name, value, days = 365) {
+        const expires = new Date(Date.now() + days * 86400000).toUTCString();
+        document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+    }
+
+    function updateButton() {
+        loginButton.disabled = !usernameRegex.test(usernameInput.value);
+    }
+
+    const savedUsername = getCookie("username");
+    if (savedUsername) {
+        usernameInput.value = savedUsername;
+    }
+
+    updateButton();
+
+    usernameInput.addEventListener("input", updateButton);
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const username = usernameInput.value.trim();
+
+        if (!usernameRegex.test(username)) {
+            return;
+        }
+
+        setCookie("username", username);
+
+        alert("Login successful");
+
+        window.location.href = "../";
+    });
+})();
+</script>
+
+  </body>
+</html>

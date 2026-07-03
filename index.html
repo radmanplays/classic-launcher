@@ -1,0 +1,324 @@
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="./css/style.css">
+<link rel="shortcut icon" href="./favicon.png"/>
+<title>Minecraft</title>
+</head>
+<body>
+<div id="toppanel" style="display: flex; align-items: center;">
+<div id="logo"><a href="./" border="0"><img src="./img/logo_small.gif" border="0"></a></div>
+  <div id="links" style="flex: 1; display: flex; gap: 20px; align-items: center; padding-left: 20px; font-size: 14px; font-family: 'Trebuchet MS'; float: none; width: auto; margin: 0;">
+    <a href="./" id="menu_" class="menuItem" style="text-decoration: underline;">Home</a>
+    <a href="./servers" id="menu_about" class="menuItem">Servers</a>
+  </div>
+  <div id="loginpanel">Not logged in. [ <a href="./login">Log in</a> ] 
+</div>
+</div>
+
+</div>
+
+    <center><img src="./img/logo.gif"><br>
+    <div class="launcher" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center;">
+        <select id="versionSelect" style="margin: 4px 0;">
+        </select>
+        <button class="btn-play" id="playBtn" disabled style="margin: 4px 0; padding: 6px 18px; font-size: 16px; cursor: pointer;">Play</button>
+    </div>
+
+    <div id="footer">Not affiliated with mojang or microsoft. <a href="https://www.minecraft.net">Buy minecraft</a></div>
+
+    <script>
+        (function() {
+            const vers = [
+                  { name: 'Classic 0.24_03_ST', link: 'https://radmanplays.github.io/classic-0.24_03', instructions: '' },
+                  { name: 'Classic 0.0.23a_01', link: 'https://radmanplays.github.io/classic-0.0.23a_01', instructions: 'newclassic' },
+                  { name: 'Classic 0.0.22a_05', link: 'https://radmanplays.github.io/classic-0.0.22a_05', instructions: 'newclassic'},
+                  { name: 'Classic 0.0.21a', link: 'https://radmanplays.github.io/classic-0.0.21a', instructions: 'newclassic'},
+                  { name: 'Classic 0.0.20a_02', link: 'https://radmanplays.github.io/classic-0.0.20a_02', instructions: 'newclassic'},
+                  { name: 'Classic 0.0.19a_06', link: 'https://radmanplays.github.io/classic-0.0.19a_06', instructions: 'mpclassic'},
+                  { name: 'Classic 0.0.18a_02', link: 'https://radmanplays.github.io/classic-0.0.18a_02', instructions: 'mpclassic'},
+                  { name: 'Classic 0.0.17a', link: 'https://radmanplays.github.io/classic-0.0.17a', instructions: 'mpclassic'},
+                  { name: 'Classic 0.0.16a_02', link: 'https://radmanplays.github.io/classic-0.0.16a_02', instructions: 'midclassic'},
+                  { name: 'Classic 0.0.15a', link: 'https://radmanplays.github.io/classic-0.0.15a', instructions: 'midclassic'},
+                  { name: 'Classic 0.0.14a_08', link: 'https://radmanplays.github.io/classic-0.0.14a_08', instructions: 'midclassic'},
+                  { name: 'Classic 0.0.13a_03', link: 'https://radmanplays.github.io/classic-0.0.13a_03', instructions: 'classic'},
+                  { name: 'Classic 0.0.12a_03', link: 'https://radmanplays.github.io/classic-0.0.12a_03', instructions: 'classic'},
+                  { name: 'Classic 0.0.11a', link: 'https://radmanplays.github.io/classic-0.0.11a', instructions: 'classic'},
+                  { name: 'PreClassic rd-161348', link: 'https://radmanplays.github.io/rd-161348', instructions: 'preclassic'},
+                  { name: 'PreClassic rd-160052', link: 'https://radmanplays.github.io/rd-160052', instructions: 'preclassic'},
+                  { name: 'PreClassic rd-132328', link: 'https://radmanplays.github.io/rd-132328', instructions: 'rd132328'},
+                  { name: 'PreClassic rd-132211', link: 'https://radmanplays.github.io/rd-132211', instructions: 'rd132211'}
+            ];
+
+            const instructions = {
+                newclassic: `
+                  <h2>Controls:</h2>
+                  <div>
+                      WASD to move<br>
+                      Space to jump<br>
+                      R to respawn at the spawn point.<br>
+                      G to add a mob<br>
+                      B to open the inventory<br>
+                      Y to swap mouse Y axis<br>
+                      F to toggle rendering distance<br>
+                      Enter to set a new spawn point. Escape to release mouse and open game menu<br>
+                      1-9 to change building block type<br>
+                      Left mouse button to remove or add a block<br>
+                      Right mouse button to switch editing mode<br>
+                      Middle mouse button to copy block type
+                  </div>
+                  <h2>In multiplayer:</h2>
+                  Tab to list players<br>
+                  T to chat
+              `,
+              mpclassic: `
+                  <h2>Controls:</h2>
+                  <div>
+                      WASD to move<br>
+                      Space to jump<br>
+                      R to respawn at the spawn point.<br>
+                      G to add a mob<br>
+                      Y to swap mouse Y axis<br>
+                      F to toggle rendering distance<br>
+                      Enter to set a new spawn point. Escape to release mouse and open game menu<br>
+                      1-9 to change building block type<br>
+                      Left mouse button to remove or add a block<br>
+                      Right mouse button to switch editing mode<br>
+                      Middle mouse button to copy block type
+                  </div>
+                  <h2>In multiplayer:</h2>
+                  Tab to list players<br>
+                  T to chat
+              `,
+              classic: `
+                  <h2>Controls:</h2>
+                  <div>
+                      WASD to move<br>
+                      Space to jump<br>
+                      R to respawn at the spawn point.<br>
+                      G to add a mob<br>
+                      Y to swap mouse Y axis<br>
+                      F to toggle rendering distance<br>
+                      Enter to set a new spawn point. Escape to release mouse and open game menu<br>
+                      1-9 to change building block type<br>
+                      Left mouse button to remove or add a block<br>
+                      Right mouse button to switch editing mode
+                  </div>
+              `,
+              midclassic: `
+                  <h2>Controls:</h2>
+                  <div>
+                      WASD to move<br>
+                      Space to jump<br>
+                      R to respawn at the spawn point.<br>
+                      G to add a mob<br>
+                      Y to swap mouse Y axis<br>
+                      F to toggle rendering distance<br>
+                      Enter to set a new spawn point. Escape to release mouse and open game menu<br>
+                      1-9 to change building block type<br>
+                      Left mouse button to remove or add a block<br>
+                      Right mouse button to switch editing mode<br>
+                      Middle mouse button to copy block type
+                  </div>
+              `,
+              oldclassic: `
+                  <h2>Controls:</h2>
+                  <div>
+                      WASD to move<br>
+                      Space to jump<br>
+                      R to respawn above the level<br>
+                      G to add a mob<br>
+                      Y to swap mouse Y axis<br>
+                      F to toggle rendering distance<br>
+                      Escape to release mouse and open game menu<br>
+                      1-4 to change building block type<br>
+                      Left mouse button to remove or add a block<br>
+                      Right mouse button to switch editing mode
+                  </div>
+              `,
+              preclassic: `
+                  <h2>Controls:</h2>
+                  <div>
+                      WASD to move<br>
+                      Space to jump<br>
+                      R to respawn above the level<br>
+                      G to add a mob<br>
+                      Left mouse button to place a block<br>
+                      Right mouse button to remove a block<br>
+                      1-4 to change building block type
+                      Enter to save the world<br>
+                      Escape to release mouse<br>
+                  </div>
+                  <h3>The level is auto-saved every 10 seconds</h3>
+              `,
+              rd132328: `
+                  <h2>Controls:</h2>
+                  <div>
+                      WASD to move<br>
+                      Space to jump<br>
+                      R to respawn above the level<br>
+                      G to add a mob<br>
+                      Left mouse button to place a block<br>
+                      Right mouse button to remove a block<br>
+                      Enter to save the world<br>
+                      Escape to release mouse<br>
+                  </div>
+                  <h3>The level is auto-saved every 10 seconds</h3>
+              `,
+              rd132211: `
+                  <h2>Controls:</h2>
+                  <div>
+                      WASD to move<br>
+                      Space to jump<br>
+                      R to respawn above the level<br>
+                      Left mouse button to place a block<br>
+                      Right mouse button to remove a block<br>
+                      Enter to save the world<br>
+                      Escape to release mouse<br>
+                  </div>
+                  <h3>The level is auto-saved every 10 seconds</h3>
+              `
+          };
+
+            const params = new URLSearchParams(window.location.search);
+            const verRaw = params.get("ver");
+            const verlist = verRaw ? verRaw.split(",") : [];
+
+            const iframeParams = new URLSearchParams();
+            for (const [k, v] of params.entries()) {
+                if (k !== "ver") iframeParams.append(k, v);
+            }
+
+            const cookieUser = getCookie("username");
+            if (cookieUser) {
+                iframeParams.set("username", cookieUser);
+            }
+
+            vers.forEach(opt => {
+                const optionEl = document.createElement('option');
+                optionEl.value = opt.link;
+                optionEl.textContent = opt.name;
+                document.getElementById('versionSelect').appendChild(optionEl);
+
+            });
+
+            function updateBtn() {
+                document.getElementById('playBtn').disabled = !document.getElementById('versionSelect').value;
+            }
+
+            function getCookie(name) {
+                const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.$?*|{}()[\]\\/+^]/g, '\\$&') + '=([^;]*)'));
+                return match ? decodeURIComponent(match[1]) : "";
+            }
+
+            function setCookie(name, value, days = 365) {
+                const expires = new Date(Date.now() + days * 86400000).toUTCString();
+                document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+            }
+
+            function deleteCookie(name) {
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+            }
+
+            const loginPanel = document.getElementById("loginpanel");
+            const u = getCookie("username");
+
+            if (u) {
+                loginPanel.innerHTML = `Logged in as ${u}. [ <a href="#" id="logoutBtn">Log out</a> ]`;
+
+                document.getElementById("logoutBtn").addEventListener("click", (e) => {
+                    e.preventDefault();
+                    deleteCookie("username");
+                    location.reload();
+                });
+            } else {
+                loginPanel.innerHTML = `Not logged in. [ <a href="./login">Log in</a> ]`;
+            }
+
+            document.getElementById('versionSelect').addEventListener('change', updateBtn);
+
+            document.getElementById('playBtn').addEventListener('click', function() {
+                const version = vers.find(v => v.link === document.getElementById('versionSelect').value);
+                if (!version) return;
+                launch(version);
+            });
+
+            function launch(version) {
+                document.getElementById('versionSelect').remove();
+                document.getElementById('playBtn').remove();
+                if (document.querySelector('center > img')) document.querySelector('center > img').remove();
+
+                document.querySelector('.launcher').style.position = "fixed";
+                document.querySelector('.launcher').style.top = "50%";
+                document.querySelector('.launcher').style.left = "50%";
+                document.querySelector('.launcher').style.transform = "translate(-50%, -50%)";
+
+                const iframe = document.createElement("iframe");
+                const qs = iframeParams.toString();
+                iframe.src = qs ? `${version.link}?${qs}` : version.link;
+                iframe.width = version.name.includes("rd-132211") || version.name.includes("rd-132328") ? "640" : "854";
+                iframe.height = "480";
+                iframe.frameBorder = "0";
+                iframe.allowFullscreen = true;
+
+                const msg = document.createElement("div");
+                msg.style.textAlign = "center";
+                msg.style.fontFamily = "Times New Roman";
+                msg.style.color = "#a0a0a0";
+                msg.style.fontSize = "small";
+
+                if (navigator.javaEnabled()) {
+                    msg.innerHTML = "This game does <span style='font-weight:bold;'>NOT</span> require <a href='https://www.java.com/'>Java</a>. Thanks for having it installed anyways I guess? Press Escape to release the mouse.";
+                } else {
+                    msg.innerHTML = "This game does <span style='font-weight:bold;'>NOT</span> require <a href='https://www.java.com/'>Java</a>. Press Escape to release the mouse.";
+                }
+
+                if (version.name.includes("0.0.14a_08") || version.name.includes("0.0.15a") || version.name.includes("0.0.16a_02")) {
+                    msg.innerHTML += "<br>You can now set a new spawn point with return!";
+                }
+
+                const B = document.createElement("div");
+                B.style.textAlign = "center";
+                B.style.fontSize = "large";
+                B.innerText = "Press B!"
+
+
+                const controls = document.createElement("div");
+                controls.style.width = iframe.width + "px";
+                controls.style.margin = "120px auto 40px auto";
+                controls.style.textAlign = "left";
+                controls.innerHTML = instructions[version.instructions] || "";
+
+                const game = document.createElement("div");
+                game.style.position = "relative";
+                game.style.top = "40%";
+                game.style.left = "50%";
+                game.style.transform = "translate(-50%, -50%)";
+                game.style.textAlign = "center";
+
+                game.appendChild(iframe);
+                game.appendChild(msg);
+                if(version.name.includes("0.0.20a_02") || version.name.includes("0.0.21a") || version.name.includes("0.0.22a_05") || version.name.includes("0.0.23a_01")){
+                    game.appendChild(B);
+                }
+                document.body.appendChild(game);
+                document.body.appendChild(controls);
+            }
+
+            if (verlist[0]) {
+                const version = vers.find(v =>
+                    v.name.toLowerCase().includes(verlist[0].toLowerCase()) ||
+                    v.link.toLowerCase().includes(verlist[0].toLowerCase())
+                );
+
+                if (version) {
+                    launch(version);
+                }
+            }
+
+            updateBtn();
+        })();
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="shortcut icon" href="../favicon.png"/>
+<title>Minecraft</title>
+</head>
+<body>
+<div id="toppanel" style="display: flex; align-items: center;">
+<div id="logo"><a href="./" border="0"><img src="../img/logo_small.gif" border="0"></a></div>
+  <div id="links" style="flex: 1; display: flex; gap: 20px; align-items: center; padding-left: 20px; font-size: 14px; font-family: 'Trebuchet MS'; float: none; width: auto; margin: 0;">
+    <a href="../" id="menu_" class="menuItem">Home</a>
+    <a href="../servers.html" id="menu_about" class="menuItem" style="text-decoration: underline;">Servers</a>
+  </div>
+    <div id="loginpanel">Not logged in. [ <a href="../login">Log in</a> ] 
+</div>
+</div>
+
+</div>
+
+    <div id="content">
+    <br><br><br>
+
+
+
+    <center id="loginWarning" style="color:red;"></center>
+
+
+    <h2>Public servers:</h2>
+    If you want to host your own, click <a href="./server-tut/">here</a>!<br>
+    <br><br>
+    <div id="serverList"></div>
+
+
+<script>
+
+            const servers = [
+                { name: "WebMC Classic", version: "0.0.23a_01", ip: "wss://classic.webmc.fun" },
+            ];
+
+
+            function getCookie(name) {
+                const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.$?*|{}()[\]\\/+^]/g, '\\$&') + '=([^;]*)'));
+                return match ? decodeURIComponent(match[1]) : "";
+            }
+
+            function setCookie(name, value, days = 365) {
+                const expires = new Date(Date.now() + days * 86400000).toUTCString();
+                document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+            }
+
+            function deleteCookie(name) {
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+            }
+
+            const loginPanel = document.getElementById("loginpanel");
+            const u = getCookie("username");
+
+            if (u) {
+                loginPanel.innerHTML = `Logged in as ${u}. [ <a href="#" id="logoutBtn">Log out</a> ]`;
+
+                document.getElementById("logoutBtn").addEventListener("click", (e) => {
+                    e.preventDefault();
+                    deleteCookie("username");
+                    location.reload();
+                });
+            } else {
+                loginPanel.innerHTML = `Not logged in. [ <a href="../login">Log in</a> ]`;
+            }
+
+            const serverList = document.getElementById("serverList");
+            const loginWarning = document.getElementById("loginWarning");
+
+            if (!u) {
+                loginWarning.textContent = "You need to log in to join multiplayer games.";
+            } else {
+                loginWarning.textContent = "";
+            }
+
+            servers.forEach(s => {
+                const line = document.createElement("div");
+
+                const text = `${s.name} (${s.version})`;
+                line.style.fontWeight = "bold";
+
+                if (u) {
+                    const a = document.createElement("a");
+                    a.href = `../?ver=${encodeURIComponent(s.version)}&server=${encodeURIComponent(s.ip)}`;
+                    a.textContent = text;
+                    line.appendChild(a);
+                } else {
+                    line.textContent = text;
+                }
+
+                serverList.appendChild(line);
+            });
+</script>
+
+  </body>
+</html>
