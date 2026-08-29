@@ -262,7 +262,19 @@
                 iframe.width = version.name.includes("rd-132211") || version.name.includes("rd-132328") ? "640" : "854";
                 iframe.height = "480";
                 iframe.frameBorder = "0";
-                iframe.allowFullscreen = true;
+                iframe.allow="fullscreen; pointer-lock; autoplay; clipboard-read; clipboard-write"
+                iframe.tabIndex = 0;
+                iframe.addEventListener("load", () => {
+                    iframe.focus();
+                    try {
+                        iframe.contentWindow.focus();
+                    } catch (e) {
+                    }
+                });
+                iframe.addEventListener("click", () => {
+                    iframe.focus();
+                });
+              
 
                 const msg = document.createElement("div");
                 msg.style.textAlign = "center";
