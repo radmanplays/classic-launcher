@@ -268,6 +268,11 @@
                     iframe.focus();
                     try {
                         iframe.contentWindow.focus();
+                        iframe.contentDocument.documentElement.style.overscrollBehavior = "contain";
+                        iframe.contentDocument.body.style.overscrollBehavior = "contain";
+                        iframe.contentDocument.addEventListener("wheel", (e) => {
+                            e.stopPropagation();
+                        }, { passive: true });
                     } catch (e) {
                     }
                 });
